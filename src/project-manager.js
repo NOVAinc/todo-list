@@ -1,3 +1,6 @@
+import Project from "./project.js";
+import Reviver from "./revivers.js";
+
 export default class Manager {
   static projects = [];
 
@@ -7,10 +10,17 @@ export default class Manager {
       Manager.projects = JSON.parse(localStorage.getItem("projectArray"));
     } else {
       console.log("Nothing in local Storage");
+      this.projects.push(new Project("default"));
+    }
+
+    for (let project of this.projects) {
+      Reviver.addProjectMethods(project);
     }
   }
 
   static add(project) {
+    Reviver.addProjectMethods(project);
+
     Manager.projects.push(project);
 
     console.log("Added a project to the manager");
