@@ -1,4 +1,5 @@
 import Project from "./project.js";
+import Todo from "./todo.js";
 import Reviver from "./revivers.js";
 
 export default class Manager {
@@ -7,18 +8,21 @@ export default class Manager {
   static initialize() {
     // Fetch locally stored data
     if (localStorage.getItem("projectArray")) {
-      Manager.projects = JSON.parse(localStorage.getItem("projectArray"));
+      this.projects = JSON.parse(localStorage.getItem("projectArray"));
     } else {
       console.log("Nothing in local Storage");
-      this.projects.push(new Project("default"));
+      this.add(new Project("default"));
+      this.projects[0].add(new Todo());
     }
 
+    // Add methods to loaded projects
     for (let project of this.projects) {
       Reviver.addProjectMethods(project);
     }
   }
 
   static add(project) {
+    // Add methods to new project
     Reviver.addProjectMethods(project);
 
     Manager.projects.push(project);

@@ -1,9 +1,12 @@
+import Manager from "./project-manager";
+
 const projectMethods = {
   add: function (todo) {
     this.todos.push(todo);
 
     console.log("Added new todo to the project");
     console.table(this.todos);
+    Manager.updateLocalStorage();
   },
   remove: function (todo) {
     this.todos.splice(this.todos.indexOf(todo), 1);
